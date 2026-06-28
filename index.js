@@ -33,13 +33,11 @@ client.on("interactionCreate", async (interaction) => {
 // ✅ LOGIN
 console.log("🚀 Starting Discord login...");
 
-client.login(process.env.DISCORD_TOKEN)
-  .then(() => {
-    console.log("✅ Login request sent");
-  })
-  .catch((err) => {
-    console.error("❌ LOGIN FAILED:", err);
-  });
+client.login(process.env.DISCORD_TOKEN).then(() => {
+  console.log("✅ Login request sent");
+}).catch((err) => {
+  console.error("❌ LOGIN FAILED:", err);
+});
 
 // ✅ Express LAST
 const express = require("express");
