@@ -27,8 +27,40 @@ client.on("interactionCreate", async (interaction) => {
 
   if (!interaction.isChatInputCommand()) return;
 
-  await interaction.reply("✅ Bot is working!");
+  if (interaction.commandName === "info") {
+    try {
+      await interaction.deferReply();
+
+      const code = interaction.options.getInteger("code");
+
+      const infoDB = require("./codes.json");
+      const item = infoDB[String(code)];
+
+      if (!item) {
+        await interaction.editReply("❌ Invalid code.");
+        return;
+      }
+
+      const embed = new EmbedBuilder()
+        .setTitle(item.title || "No title")
+        .setDescription(item.description || "No description")
+        .setColor(0x5865f2)
+        .setFooter({ text: `Code: ${code}` });
+
+      await interaction.editReply({
+        embeds: [embed],
+      });
+
+    } catch (err) {
+      console.error("❌ ERROR:", err);
+
+      if (interaction.deferred) {
+        await interaction.editReply("⚠️ Error occurred");
+      }
+    }
+  }
 });
+
 
 // ✅ LOGIN
 console.log("🚀 Starting Discord login...");
